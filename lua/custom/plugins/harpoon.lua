@@ -5,7 +5,30 @@ return {
   branch = 'harpoon2',
   dependencies = { "nvim-lua/plenary.nvim" },
   config = function()
-    require("harpoon"):setup({})
+    local harpoon = require("harpoon")
+    local extensions = require("harpoon.extensions")
+    local path = require("plenary.path")
+    harpoon:setup({})
+    -- highlight current opened file
+    harpoon:extend({
+      [extensions.event_names.UI_CREATE] = function(ctx)
+        local current = path:new(ctx.current_file):make_relative(vim.loop.cwd())
+        local regex = "\\V\\^" .. current .. "\\$"
+        -- highlight the line
+        vim.api.nvim_set_hl(0, "HarpoonCurrentFile", { bg = "bg", fg = "fg" })
+        vim.fn.clearmatches() -- vim.fn.matchdelete("HarpoonCurrentFile")
+        vim.fn.matchadd("HarpoonCurrentFile", regex)
+        -- move the cursor to the line
+        vim.fn.search(regex)
+      end,
+    })
+    -- clode menu with C-c
+    harpoon:extend({
+      [extensions.event_names.UI_CREATE] = function(ctx)
+        vim.keymap.set("n", "<C-c>", function() harpoon.ui:close_menu() end, { buffer = ctx.bufnr })
+      end,
+    })
+    -- harpoon:extend(extensions.builtins.navigate_with_number());
   end,
   keys = {
     { "<leader>N", function() require("harpoon"):list():append() end,  desc = "Add file to Harpoon list", },
