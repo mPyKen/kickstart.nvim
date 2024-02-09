@@ -1,3 +1,6 @@
+-- install fd for searching hidden files
+-- https://github.com/nvim-neo-tree/neo-tree.nvim/issues/1168
+
 return {
   "nvim-neo-tree/neo-tree.nvim",
   branch = "v3.x",
