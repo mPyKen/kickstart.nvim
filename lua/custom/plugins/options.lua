@@ -8,7 +8,7 @@ vim.opt.splitbelow = false
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 2
 
-vim.opt.foldlevelstart = 3
+-- vim.opt.foldlevelstart = 3
 
 -- vim.opt.wrap = false
 
