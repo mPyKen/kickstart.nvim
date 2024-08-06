@@ -57,7 +57,7 @@ local function set_wildignore_from_gitignore()
   end
   -- wildignore = wildignore:gsub("^,", "")
 
-  vim.api.nvim_set_option('wildignore', wildignore)
+  vim.api.nvim_set_option_value('wildignore', wildignore, { scope = 'global' })
   -- print("wildignore set to: " .. wildignore)
 end
 
