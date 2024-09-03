@@ -86,4 +86,12 @@ vim.keymap.set('i', '<C-c>', '<Esc>', { remap = true })
 vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]])
 -- vim.keymap.set('t', '<C-c>', [[<C-\><C-n>]])
 
+vim.keymap.set('n', '<leader>T', function()
+  require('telescope.builtin').builtin { include_extensions = true }
+end, { desc = '[T]elescope' })
+
+vim.keymap.set('n', '<leader>os', function()
+  require('telescope').extensions.persisted.persisted()
+end, { desc = '[O]pen [S]essions' })
+
 return {}
