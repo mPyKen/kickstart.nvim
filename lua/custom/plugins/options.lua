@@ -5,8 +5,10 @@ vim.o.clipboard = ''
 vim.opt.splitright = false
 vim.opt.splitbelow = false
 
-vim.opt.expandtab = true
-vim.opt.shiftwidth = 2
+-- vim.opt.expandtab = true
+-- vim.opt.shiftwidth = 2
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
 
 -- vim.opt.foldlevelstart = 3
 
