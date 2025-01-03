@@ -56,9 +56,10 @@ return {
       require('persisted').setup {
         use_git_branch = true, -- create session files based on the branch of a git enabled repository
         default_branch = 'master',
-        should_autosave = function()
+        should_save = function()
+          local bufname = vim.fn.expand '%:p' -- full path of current buffer
           local sn = vim.g.persisted_loaded_session
-          return (sn ~= nil and #sn > 0) or vim.fn.globpath(vim.fn.getcwd(), '.git') ~= ''
+          return ((sn ~= nil and #sn > 0) or vim.fn.globpath(vim.fn.getcwd(), '.git') ~= '') and not bufname:find '/.git/'
         end,
         autoload = true, -- automatically load the session for the cwd on Neovim startup
         follow_cwd = false,
