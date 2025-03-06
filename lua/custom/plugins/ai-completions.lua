@@ -1,12 +1,18 @@
 return {
-  'Exafunction/codeium.nvim',
-  dependencies = {
-    'nvim-lua/plenary.nvim',
-    'hrsh7th/nvim-cmp',
+  {
+    'Exafunction/codeium.vim', -- note this is NOT codeium.nvim
+    event = 'BufEnter',
   },
-  config = function()
-    require('codeium').setup {}
-  end,
+  {
+    'Exafunction/codeium.nvim', -- note this is NOT codeium.vim
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'hrsh7th/nvim-cmp',
+    },
+    config = function()
+      require('codeium').setup {}
+    end,
+  },
 }
 
 --- lua
@@ -15,6 +21,6 @@ return {
 
 -- return {
 --   {
---     "TabbyML/vim-tabby",
+--     'TabbyML/vim-tabby',
 --   },
 -- }
