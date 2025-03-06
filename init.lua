@@ -902,6 +902,7 @@ require('lazy').setup({
           { name = 'luasnip' },
           { name = 'path' },
           { name = 'nvim_lsp_signature_help' },
+          { name = 'codeium' },
         },
         formatting = {
           format = require('lspkind').cmp_format {
@@ -909,6 +910,7 @@ require('lazy').setup({
             before = function(entry, vim_item)
               return vim_item
             end,
+            symbol_map = { Codeium = '' },
           },
         },
       }
