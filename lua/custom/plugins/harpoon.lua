@@ -31,7 +31,7 @@ return {
     -- harpoon:extend(extensions.builtins.navigate_with_number());
   end,
   keys = {
-    { "<leader>N", function() require("harpoon"):list():append() end,  desc = "Add file to Harpoon list", },
+    { "<leader>N", function() require("harpoon"):list():add() end,  desc = "Add file to Harpoon list", },
     {
       "<leader>n",
       function()
@@ -45,5 +45,10 @@ return {
     { "<leader>3", function() require("harpoon"):list():select(3) end, desc = "Select Harpoon item 3", },
     { "<leader>4", function() require("harpoon"):list():select(4) end, desc = "Select Harpoon item 4", },
     { "<leader>5", function() require("harpoon"):list():select(5) end, desc = "Select Harpoon item 5", },
+    { "<leader>6", function() require("harpoon"):list():select(6) end, desc = "Select Harpoon item 6", },
+    { "<leader>7", function() require("harpoon"):list():select(7) end, desc = "Select Harpoon item 7", },
+    { "<leader>8", function() require("harpoon"):list():select(8) end, desc = "Select Harpoon item 8", },
+    { "<leader>9", function() require("harpoon"):list():select(9) end, desc = "Select Harpoon item 9", },
+    { "<leader>0", function() require("harpoon"):list():select(10) end, desc = "Select Harpoon item 10", },
   },
 }
