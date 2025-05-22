@@ -247,7 +247,10 @@ rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-  'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
+  {
+    'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
+    opts = {},
+  },
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -849,6 +852,23 @@ require('lazy').setup({
 
         -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
         --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
+
+        ['<C-d>'] = {
+          function(cmp)
+            for i = 1, 5 do
+              cmp.select_next { auto_insert = false }
+            end
+            return true
+          end,
+        },
+        ['<C-u>'] = {
+          function(cmp)
+            for i = 1, 5 do
+              cmp.select_prev { auto_insert = false }
+            end
+            return true
+          end,
+        },
       },
 
       appearance = {
