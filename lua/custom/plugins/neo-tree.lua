@@ -2,20 +2,20 @@
 -- https://github.com/nvim-neo-tree/neo-tree.nvim/issues/1168
 
 return {
-  "nvim-neo-tree/neo-tree.nvim",
-  branch = "v3.x",
+  'nvim-neo-tree/neo-tree.nvim',
+  branch = 'v3.x',
   dependencies = {
-    "nvim-lua/plenary.nvim",
-    "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-    "MunifTanjim/nui.nvim",
+    'nvim-lua/plenary.nvim',
+    'nvim-tree/nvim-web-devicons', -- not strictly required, but recommended
+    'MunifTanjim/nui.nvim',
   },
   config = function()
     -- https://github.com/nvim-neo-tree/neo-tree.nvim/wiki/Recipes#emulating-vims-fold-commands
-    local renderer = require "neo-tree.ui.renderer"
+    local renderer = require 'neo-tree.ui.renderer'
 
     -- Expand a node and load filesystem info if needed.
     local function open_dir(state, dir_node)
-      local fs = require "neo-tree.sources.filesystem"
+      local fs = require 'neo-tree.sources.filesystem'
       fs.toggle_directory(state, dir_node, nil, true, false)
     end
 
@@ -25,7 +25,7 @@ return {
       local stack = { node }
       while next(stack) ~= nil do
         node = table.remove(stack)
-        if node.type == "directory" and not node:is_expanded() then
+        if node.type == 'directory' and not node:is_expanded() then
           open_dir(state, node)
         end
 
@@ -114,7 +114,7 @@ return {
         return
       end
 
-      if node.type == "directory" and not node:is_expanded() then
+      if node.type == 'directory' and not node:is_expanded() then
         neotree_zo(state, toggle_all)
       else
         neotree_zc(state, toggle_all)
@@ -136,7 +136,7 @@ return {
       while next(stack) ~= nil do
         local node = table.remove(stack)
 
-        if node.type == "directory" then
+        if node.type == 'directory' then
           local should_be_open = depthlevel == nil or node:get_depth() < depthlevel
           if should_be_open and not node:is_expanded() then
             open_dir(state, node)
@@ -160,7 +160,7 @@ return {
       local node = state.tree:get_node()
 
       if stay then
-        require("neo-tree.ui.renderer").expand_to_node(state.tree, node)
+        require('neo-tree.ui.renderer').expand_to_node(state.tree, node)
       else
         -- Find the closest parent that is still visible.
         local parent = state.tree:get_node(node:get_parent_id())
@@ -221,29 +221,29 @@ return {
 
     local function diff_files(state)
       local node = state.tree:get_node()
-      local log = require("neo-tree.log")
+      local log = require 'neo-tree.log'
       state.clipboard = state.clipboard or {}
       if diff_Node and diff_Node ~= tostring(node.id) then
         local current_Diff = node.id
-        require("neo-tree.utils").open_file(state, diff_Node, open)
-        vim.cmd("vert diffs " .. current_Diff)
-        log.info("Diffing " .. diff_Name .. " against " .. node.name)
+        require('neo-tree.utils').open_file(state, diff_Node, open)
+        vim.cmd('vert diffs ' .. current_Diff)
+        log.info('Diffing ' .. diff_Name .. ' against ' .. node.name)
         diff_Node = nil
         current_Diff = nil
         state.clipboard = {}
-        require("neo-tree.ui.renderer").redraw(state)
+        require('neo-tree.ui.renderer').redraw(state)
       else
         local existing = state.clipboard[node.id]
-        if existing and existing.action == "diff" then
+        if existing and existing.action == 'diff' then
           state.clipboard[node.id] = nil
           diff_Node = nil
-          require("neo-tree.ui.renderer").redraw(state)
+          require('neo-tree.ui.renderer').redraw(state)
         else
-          state.clipboard[node.id] = { action = "diff", node = node }
+          state.clipboard[node.id] = { action = 'diff', node = node }
           diff_Name = state.clipboard[node.id].node.name
           diff_Node = tostring(state.clipboard[node.id].node.id)
-          log.info("Diff source file " .. diff_Name)
-          require("neo-tree.ui.renderer").redraw(state)
+          log.info('Diff source file ' .. diff_Name)
+          require('neo-tree.ui.renderer').redraw(state)
         end
       end
     end
@@ -251,42 +251,42 @@ return {
     require('neo-tree').setup {
       event_handlers = {
         {
-          event = "neo_tree_buffer_enter",
+          event = 'neo_tree_buffer_enter',
           handler = function(arg)
             vim.cmd [[
               setlocal relativenumber
               set nofoldenable
             ]]
           end,
-        }
+        },
       },
       window = {
         mappings = {
-          ["<space>"] = {
-            "toggle_node",
+          ['<space>'] = {
+            'toggle_node',
             nowait = true,
           },
-          ["v"] = "open_vsplit",
-          ["s"] = "open_split",
-          ["<c-c>"] = "cancel",
-          ["h"] = function(state)
+          ['v'] = 'open_vsplit',
+          ['s'] = 'open_split',
+          ['<c-c>'] = 'cancel',
+          ['h'] = function(state)
             local node = state.tree:get_node()
             if node.type == 'directory' and node:is_expanded() then
-              require 'neo-tree.sources.filesystem'.toggle_directory(state, node)
+              require('neo-tree.sources.filesystem').toggle_directory(state, node)
             else
-              require 'neo-tree.ui.renderer'.focus_node(state, node:get_parent_id())
+              require('neo-tree.ui.renderer').focus_node(state, node:get_parent_id())
             end
           end,
-          ["l"] = function(state)
+          ['l'] = function(state)
             local node = state.tree:get_node()
             if node.type == 'directory' then
               if not node:is_expanded() then
-                require 'neo-tree.sources.filesystem'.toggle_directory(state, node)
+                require('neo-tree.sources.filesystem').toggle_directory(state, node)
               elseif node:has_children() then
-                require 'neo-tree.ui.renderer'.focus_node(state, node:get_child_ids()[1])
+                require('neo-tree.ui.renderer').focus_node(state, node:get_child_ids()[1])
               end
             else
-              require 'neo-tree.sources.common.commands'.focus_preview()
+              require('neo-tree.sources.common.commands').focus_preview()
               -- local preview = require 'neo-tree.sources.common.preview'
               -- if preview.is_active() then
               --   preview.focus()
@@ -295,8 +295,8 @@ return {
               -- end
             end
           end,
-          ["D"] = diff_files,
-        }
+          ['D'] = diff_files,
+        },
       },
       filesystem = {
         follow_current_file = {
@@ -305,20 +305,44 @@ return {
         },
         window = {
           mappings = {
-            ["z"] = "none",
-            ["zo"] = neotree_zo,
-            ["zO"] = neotree_zO,
-            ["zc"] = neotree_zc,
-            ["zC"] = neotree_zC,
-            ["za"] = neotree_za,
-            ["zA"] = neotree_zA,
-            ["zx"] = neotree_zx,
-            ["zX"] = neotree_zX,
-            ["zm"] = neotree_zm,
-            ["zM"] = neotree_zM,
-            ["zr"] = neotree_zr,
-            ["zR"] = neotree_zR,
+            ['z'] = 'none',
+            ['zo'] = neotree_zo,
+            ['zO'] = neotree_zO,
+            ['zc'] = neotree_zc,
+            ['zC'] = neotree_zC,
+            ['za'] = neotree_za,
+            ['zA'] = neotree_zA,
+            ['zx'] = neotree_zx,
+            ['zX'] = neotree_zX,
+            ['zm'] = neotree_zm,
+            ['zM'] = neotree_zM,
+            ['zr'] = neotree_zr,
+            ['zR'] = neotree_zR,
+            ['oa'] = 'avante_add_files',
           },
+        },
+        commands = {
+          avante_add_files = function(state)
+            local node = state.tree:get_node()
+            local filepath = node:get_id()
+            local relative_path = require('avante.utils').relative_path(filepath)
+
+            local sidebar = require('avante').get()
+
+            local open = sidebar:is_open()
+            -- ensure avante sidebar is open
+            if not open then
+              require('avante.api').ask()
+              sidebar = require('avante').get()
+            end
+
+            sidebar.file_selector:add_selected_file(relative_path)
+
+            -- remove neo tree buffer
+            if not open then
+              sidebar.file_selector:remove_selected_file 'neo-tree filesystem [1]'
+            end
+          end,
         },
       },
     }
