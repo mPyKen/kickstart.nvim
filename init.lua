@@ -774,6 +774,23 @@ require('lazy').setup({
 
         -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
         --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
+
+        ['<C-d>'] = {
+          function(cmp)
+            for i = 1, 5 do
+              cmp.select_next { auto_insert = false }
+            end
+            return true
+          end,
+        },
+        ['<C-u>'] = {
+          function(cmp)
+            for i = 1, 5 do
+              cmp.select_prev { auto_insert = false }
+            end
+            return true
+          end,
+        },
       },
 
       appearance = {
